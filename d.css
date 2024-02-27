@@ -20,7 +20,7 @@
     z-index: 1000;
 }
 .card {
-    width: 40vw; /* Ancho del 40% del ancho de la ventana */
+    width: 200px; /* Ancho del 40% del ancho de la ventana */
     height: 100px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
