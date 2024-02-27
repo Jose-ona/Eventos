@@ -1,20 +1,9 @@
-#sortable-container {
+*{font-family: sans-serif;}
+    #sortable-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-}
-
-.card {
-    width: calc(50% - 10px);
-    max-width: 200px; /* Máximo ancho de la tarjeta */
-    height: 80px; /* Altura de la tarjeta */
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    text-align: center;
-    line-height: 80px;
-    cursor: move;
-    margin-bottom: 10px;
 }
 
 #save-btn {
@@ -30,8 +19,23 @@
     cursor: pointer;
     z-index: 1000;
 }
-@media screen and (min-width: 768px) {
+.card {
+    width: 40vw; /* Ancho del 40% del ancho de la ventana */
+    height: 100px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    text-align: center;
+    line-height: 100px;
+    cursor: move;
+    font-size: 1.5em; /* Tamaño de fuente 1.5 veces mayor */
+    color: blue; /* Color del texto en azul */
+    font-family: sans-serif;
+}
+
+@media (max-width: 768px) { /* Cambios para dispositivos con ancho máximo de 768px (tabletas y móviles en horizontal) */
     .card {
-        width: 200px;
+        width: 50vw; /* Ancho del 80% del ancho de la ventana */
+        font-size: 5vw;
+        font-family: sans-serif;
     }
 }
