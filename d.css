@@ -1,4 +1,6 @@
-*{font-family: sans-serif;}
+*{font-family: sans-serif;
+}
+body{padding-bottom: 00px;}
     #sortable-container {
     display: flex;
     flex-wrap: wrap;
@@ -27,15 +29,16 @@
     text-align: center;
     line-height: 100px;
     cursor: move;
-    font-size: 1.5em; /* Tamaño de fuente 1.5 veces mayor */
-    color: blue; /* Color del texto en azul */
+    font-size: 1vw; /* Tamaño de fuente 1.5 veces mayor */
+    color: rgb(46, 46, 50); /* Color del texto en azul */
     font-family: sans-serif;
 }
 
 @media (max-width: 768px) { /* Cambios para dispositivos con ancho máximo de 768px (tabletas y móviles en horizontal) */
     .card {
-        width: 50vw; /* Ancho del 80% del ancho de la ventana */
-        font-size: 5vw;
+        width: 30vw; /* Ancho del 80% del ancho de la ventana */
+        font-size: 3vw;
         font-family: sans-serif;
+        overflow: hidden;
     }
 }
