@@ -9,10 +9,10 @@
 </head>
 <body>
 
-  <p style="background-color: lightgray; padding: 10px; border-radius: 5px; margin-bottom: 20px;font-size: 2vw;">
+<p style="background-color: lightgray; padding: 10px; border-radius: 5px; margin-bottom: 20px;font-size: 2vw;">
     Organiza los recuadros según cómo te gustaría que se vieran en una aplicación de teléfono.
-  </p>
-  <div id="sortable-container">
+</p>
+<div id="sortable-container">
     <!-- Aquí se generarán las tarjetas -->
     <div class="card">Registro e inicio de sesión</div>
     <div class="card">Eventos</div>
@@ -48,136 +48,134 @@
     <div class="card">historial</div>
     <div class="card">Chat</div>
     <div class="card">Cerrar Sesión</div>
-    
 </div>
 
-  <button id="save-btn">Guardar</button>
+<button id="save-btn">Guardar</button>
 
-  <script>
-      // Crear tarjetas para cada funcionalidad
-      const functionalities = [
+<script>
+    // Crear tarjetas para cada funcionalidad
+    const functionalities = [
+        "Registro e inicio de sesión",
+        "Eventos",
+        "Rol de Usuario",
+        "Búsqueda",
+        "Reservar",
+        "Calendario Interactivo",
+        "Información",
+        "Estudiante",
+        "Docente",
+        "Ponentes",
+        "Staff",
+        "Invitados",
+        "Notificaciones",
+        "Ubicación y Plano",
+        "Carrito de compra",
+        "Ayuda",
+        "Feedback",
+        "Sugerencias",
+        "Perfil de Usuario",
+        "Configuración",
+        "Menú",
+        "Invitar",
+        "Cerrar Sesión",
+        "Inicio",
+        "Barra de menu",
+        "Pantalla principal",
+        "Pantalla de Inicio",
+        "Pantallas de Navegación",
+        "Lista de eventos",
+        "Eventos destacados",
+        "Pantallas de Registro",
+        "historial",
+        "Chat",
+        "Cerrar Sesión",
+    ];
 
-          "Registro e inicio de sesión",
-          "Eventos",
-          "Rol de Usuario",
-          "Búsqueda",
-          "Reservar",
-          "Calendario Interactivo",
-          "Información",
-          "Estudiante",
-          "Docente",
-          "Ponentes",
-          "Staff",
-          "Invitados",
-          "Notificaciones",
-          "Ubicación y Plano",
-          "Carrito de compra",
-          "Ayuda",
-          "Feedback",
-          "Sugerencias",
-          "Perfil de Usuario",
-          "Configuración",
-          "Menú",
-          "Invitar",
-          "Cerrar Sesión",
-          "Inicio",
-          "Barra de menu",
-          "Pantalla principal",
-          "Pantalla de Inicio",
-          "Pantallas de Navegación",
-          "Lista de eventos",
-          "Eventos destacados",
-          "Pantallas de Registro",
-          "historial",
-          "Chat",
-          "Cerrar Sesión",
-      ];
+    const sortableContainer = document.getElementById('sortable-container');
+    const saveBtn = document.getElementById('save-btn');
 
-      const sortableContainer = document.getElementById('sortable-container');
-      const saveBtn = document.getElementById('save-btn');
+    function createCard(content) {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.textContent = content;
+        return card;
+    }
 
-      function createCard(content) {
-          const card = document.createElement('div');
-          card.classList.add('card');
-          card.textContent = content;
-          return card;
-      }
+    function initSortable() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mousedown', startDragging);
+            card.addEventListener('touchstart', startDragging);
+            card.addEventListener('dragstart', function (e) {
+                e.preventDefault();
+            });
+        });
+    }
 
-      function initSortable() {
-          const cards = document.querySelectorAll('.card');
-          cards.forEach(card => {
-              card.addEventListener('mousedown', startDragging);
-              card.addEventListener('touchstart', startDragging);
-              card.addEventListener('dragstart', function(e) {
-                  e.preventDefault();
-              });
-          });
-      }
+    function startDragging(event) {
+        let card = event.target;
+        let shiftX, shiftY;
+        if (event.type === 'mousedown') {
+            shiftX = event.clientX - card.getBoundingClientRect().left;
+            shiftY = event.clientY - card.getBoundingClientRect().top;
+        } else if (event.type === 'touchstart') {
+            shiftX = event.touches[0].clientX - card.getBoundingClientRect().left;
+            shiftY = event.touches[0].clientY - card.getBoundingClientRect().top;
+        }
 
-      function startDragging(event) {
-          let card = event.target;
-          let shiftX, shiftY;
-          if (event.type === 'mousedown') {
-              shiftX = event.clientX - card.getBoundingClientRect().left;
-              shiftY = event.clientY - card.getBoundingClientRect().top;
-          } else if (event.type === 'touchstart') {
-              shiftX = event.touches[0].clientX - card.getBoundingClientRect().left;
-              shiftY = event.touches[0].clientY - card.getBoundingClientRect().top;
-          }
+        card.style.position = 'absolute';
+        card.style.zIndex = 1000;
 
-          card.style.position = 'absolute';
-          card.style.zIndex = 1000;
+        moveAt(event.pageX, event.pageY);
 
-          moveAt(event.pageX, event.pageY);
+        function moveAt(pageX, pageY) {
+            card.style.left = pageX - shiftX + 'px';
+            card.style.top = pageY - shiftY + 'px';
+        }
 
-          function moveAt(pageX, pageY) {
-              card.style.left = pageX - shiftX + 'px';
-              card.style.top = pageY - shiftY + 'px';
-          }
+        function onMouseMove(event) {
+            moveAt(event.pageX, event.pageY);
+        }
 
-          function onMouseMove(event) {
-              moveAt(event.pageX, event.pageY);
-          }
+        function onTouchMove(event) {
+            moveAt(event.touches[0].clientX, event.touches[0].clientY);
+        }
 
-          function onTouchMove(event) {
-              moveAt(event.touches[0].clientX, event.touches[0].clientY);
-          }
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('touchmove', onTouchMove);
 
-          document.addEventListener('mousemove', onMouseMove);
-          document.addEventListener('touchmove', onTouchMove);
+        card.onmouseup = card.ontouchend = function () {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('touchmove', onTouchMove);
+            card.onmouseup = card.ontouchend = null;
+        };
+    }
 
-          card.onmouseup = card.ontouchend = function() {
-              document.removeEventListener('mousemove', onMouseMove);
-              document.removeEventListener('touchmove', onTouchMove);
-              card.onmouseup = card.ontouchend = null;
-          };
-      }
+    function saveAndCapture() {
+        html2canvas(document.body, {
+            scrollY: -window.scrollY
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = imgData;
+            link.download = 'captura.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
 
-      function saveAndCapture() {
-          html2canvas(document.body, {
-              scrollY: -window.scrollY
-          }).then(canvas => {
-              const imgData = canvas.toDataURL('image/png');
-              const link = document.createElement('a');
-              link.href = imgData;
-              link.download = 'captura.png';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-          });
-      }
+    function init() {
+        functionalities.forEach(func => {
+            const card = createCard(func);
+            sortableContainer.appendChild(card);
+        });
 
-      function init() {
-          functionalities.forEach(func => {
-              const card = createCard(func);
-              sortableContainer.appendChild(card);
-          });
+        initSortable();
+        saveBtn.addEventListener('click', saveAndCapture);
+    }
 
-          initSortable();
-          saveBtn.addEventListener('click', saveAndCapture);
-      }
-
-      init();
-  </script>
+    init();
+</script>
 </body>
 </html>
