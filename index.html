@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Card Sorting</title>
     <link rel="stylesheet" href="d.css">
-    <script src="html2canvas.js"></script>
+
 </head>
 <body>
 
-<p style="background-color: lightgray; padding: 10px; border-radius: 5px; margin-bottom: 20px;font-size: 2vw;">
+<p style="background-color: lightgray; padding: 10px; border-radius: 5px; margin-bottom: 20px;font-size: 2vw; color: rgb(87, 174, 77);">
     Organiza los recuadros según cómo te gustaría que se vieran en una aplicación de teléfono.
+    SI SE QUEDA COLGADO PULSAR ESC.
 </p>
 <div id="sortable-container">
     <!-- Aquí se generarán las tarjetas -->
@@ -50,47 +51,7 @@
     <div class="card">Cerrar Sesión</div>
 </div>
 
-<button id="save-btn">Guardar</button>
-
-<script>
-    // Crear tarjetas para cada funcionalidad
-    const functionalities = [
-        "Registro e inicio de sesión",
-        "Eventos",
-        "Rol de Usuario",
-        "Búsqueda",
-        "Reservar",
-        "Calendario Interactivo",
-        "Información",
-        "Estudiante",
-        "Docente",
-        "Ponentes",
-        "Staff",
-        "Invitados",
-        "Notificaciones",
-        "Ubicación y Plano",
-        "Carrito de compra",
-        "Ayuda",
-        "Feedback",
-        "Sugerencias",
-        "Perfil de Usuario",
-        "Configuración",
-        "Menú",
-        "Invitar",
-        "Cerrar Sesión",
-        "Inicio",
-        "Barra de menu",
-        "Pantalla principal",
-        "Pantalla de Inicio",
-        "Pantallas de Navegación",
-        "Lista de eventos",
-        "Eventos destacados",
-        "Pantallas de Registro",
-        "historial",
-        "Chat",
-        "Cerrar Sesión",
-    ];
-
+<script type="text/javascript">
     const sortableContainer = document.getElementById('sortable-container');
     const saveBtn = document.getElementById('save-btn');
 
@@ -102,18 +63,17 @@
     }
 
     function initSortable() {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.addEventListener('mousedown', startDragging);
-            card.addEventListener('touchstart', startDragging);
-            card.addEventListener('dragstart', function (e) {
-                e.preventDefault();
-            });
+        sortableContainer.addEventListener('mousedown', startDragging);
+        sortableContainer.addEventListener('touchstart', startDragging);
+        sortableContainer.addEventListener('dragover', function (e) {
+            e.preventDefault();
         });
     }
 
     function startDragging(event) {
-        let card = event.target;
+        let card = event.target.closest('.card');
+        if (!card) return;
+
         let shiftX, shiftY;
         if (event.type === 'mousedown') {
             shiftX = event.clientX - card.getBoundingClientRect().left;
@@ -141,14 +101,24 @@
             moveAt(event.touches[0].clientX, event.touches[0].clientY);
         }
 
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('touchmove', onTouchMove);
-
-        card.onmouseup = card.ontouchend = function () {
+        function stopDragging() {
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('touchmove', onTouchMove);
-            card.onmouseup = card.ontouchend = null;
-        };
+            document.removeEventListener('mouseup', stopDragging);
+            document.removeEventListener('touchend', stopDragging);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('touchmove', onTouchMove);
+        document.addEventListener('mouseup', stopDragging);
+        document.addEventListener('touchend', stopDragging);
+
+        // Agregar la escucha del evento para soltar la selección al presionar ESC
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                stopDragging();
+            }
+        });
     }
 
     function saveAndCapture() {
@@ -166,6 +136,10 @@
     }
 
     function init() {
+        const functionalities = [
+     
+        ];
+
         functionalities.forEach(func => {
             const card = createCard(func);
             sortableContainer.appendChild(card);

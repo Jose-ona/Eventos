@@ -8,19 +8,7 @@ body{padding-bottom: 800px;}
     gap: 10px;
 }
 
-#save-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 15px 30px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1000;
-}
+
 .card {
     width: 200px; /* Ancho del 40% del ancho de la ventana */
     height: 100px;
